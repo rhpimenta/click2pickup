@@ -48,33 +48,13 @@ Plugin WordPress/WooCommerce para gestão de estoque em múltiplos locais com su
 - [ ] Relatórios e Analytics
 - [ ] API REST
 - [ ] Notificações (Email/WhatsApp)
-- [ ] Compatibilidade HPOS
+- [x] Compatibilidade HPOS
 - [ ] Multi-idioma
 
 ## 🏗️ Estrutura do Plugin
 
 ```
-click2pickup/
-├── admin/                  # Classes administrativas
-│   ├── class-c2p-admin.php
-│   ├── class-c2p-locations-admin.php
-│   └── class-c2p-product-tab.php
-├── includes/              # Classes principais
-│   ├── class-click2pickup.php
-│   ├── class-c2p-activator.php
-│   ├── class-c2p-deactivator.php
-│   ├── class-c2p-uninstaller.php
-│   └── class-c2p-helper.php
-├── public/                # Classes públicas
-│   ├── class-c2p-public.php
-│   └── class-c2p-checkout.php
-├── assets/                # CSS, JS e imagens
-│   ├── css/
-│   ├── js/
-│   └── images/
-├── languages/             # Arquivos de tradução
-├── templates/             # Templates do plugin
-└── click2pickup.php       # Arquivo principal
+
 ```
 
 ## 📊 Tabelas do Banco de Dados
