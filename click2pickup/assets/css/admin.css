@@ -1,0 +1,90 @@
+/**
+ * Estilos Admin do Click2Pickup
+ */
+
+/* Dashboard Cards */
+.c2p-stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.c2p-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Welcome Panel */
+.c2p-welcome-panel {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.c2p-welcome-panel h2 {
+    color: white !important;
+    margin-top: 0;
+}
+
+.c2p-welcome-panel .button {
+    font-size: 16px !important;
+    padding: 10px 20px !important;
+    height: auto !important;
+}
+
+/* Forms */
+.c2p-form-section {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+}
+
+.c2p-form-section h2 {
+    margin-top: 0;
+    color: #23282d;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+/* Stock table */
+.c2p-stock-input {
+    width: 80px;
+    text-align: center;
+}
+
+/* Location cards */
+.c2p-location-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #e5e5e5;
+    transition: all 0.3s;
+}
+
+.c2p-location-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.c2p-location-card.selected {
+    border-color: #667eea;
+    background: #f8f9ff;
+}
+
+/* Loading spinner */
+.c2p-loading {
+    text-align: center;
+    padding: 20px;
+}
+
+.c2p-loading .spinner {
+    float: none;
+    margin: 0 auto;
+}
