@@ -1,0 +1,840 @@
+/**
+ * Click2Pickup - Checkout Customizado
+ * 
+ * ✅ v1.0.0: Estilo baseado no carrinho customizado
+ * ✅ v1.0.0: Layout responsivo em steps
+ * ✅ v1.0.0: Validações visuais inline
+ * 
+ * @package Click2Pickup
+ * @since 1.0.0
+ * @author rhpimenta
+ * Last Update: 2025-01-09 19:21:00 UTC
+ */
+
+/* ========================================
+   RESET E VARIÁVEIS
+   ======================================== */
+:root {
+    --c2p-primary: #003d82;
+    --c2p-primary-hover: #002d5f;
+    --c2p-secondary: #f0f0f0;
+    --c2p-success: #16a34a;
+    --c2p-error: #dc2626;
+    --c2p-warning: #f59e0b;
+    --c2p-border: #e5e7eb;
+    --c2p-text: #1f2937;
+    --c2p-text-light: #6b7280;
+    --c2p-radius: 8px;
+    --c2p-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    --c2p-shadow-lg: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.c2p-checkout-global * {
+    box-sizing: border-box;
+}
+
+.c2p-checkout-global {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--c2p-text);
+    line-height: 1.6;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ========================================
+   LAYOUT PRINCIPAL
+   ======================================== */
+.c2p-checkout-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 40px;
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .c2p-checkout-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .c2p-checkout-summary {
+        order: -1;
+    }
+}
+
+/* ========================================
+   STEPS (COLUNA ESQUERDA)
+   ======================================== */
+.c2p-checkout-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.c2p-step {
+    background: #fff;
+    border: 2px solid var(--c2p-border);
+    border-radius: var(--c2p-radius);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.c2p-step.c2p-step-active {
+    border-color: var(--c2p-primary);
+    box-shadow: var(--c2p-shadow-lg);
+}
+
+.c2p-step.c2p-step-completed {
+    border-color: var(--c2p-success);
+}
+
+.c2p-step.c2p-step-locked {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Header do step */
+.c2p-step-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    background: var(--c2p-secondary);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.c2p-step-active .c2p-step-header {
+    background: var(--c2p-primary);
+    color: #fff;
+}
+
+.c2p-step-completed .c2p-step-header {
+    background: var(--c2p-success);
+    color: #fff;
+}
+
+.c2p-step-header:hover {
+    background: #e0e0e0;
+}
+
+.c2p-step-active .c2p-step-header:hover,
+.c2p-step-completed .c2p-step-header:hover {
+    filter: brightness(1.1);
+}
+
+.c2p-step-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.c2p-step-active .c2p-step-icon,
+.c2p-step-completed .c2p-step-icon {
+    background: rgba(255,255,255,0.2);
+}
+
+.c2p-step-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.c2p-step-active .c2p-step-icon svg,
+.c2p-step-completed .c2p-step-icon svg {
+    stroke: #fff;
+}
+
+.c2p-step-title {
+    flex: 1;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.c2p-step-edit {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.5);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.c2p-step-edit:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* Conteúdo do step */
+.c2p-step-content {
+    padding: 30px 20px;
+}
+
+.c2p-step-description {
+    color: var(--c2p-text-light);
+    margin: 0 0 20px;
+    font-size: 14px;
+}
+
+/* ========================================
+   FORMULÁRIOS
+   ======================================== */
+.c2p-form-group {
+    margin-bottom: 20px;
+}
+
+.c2p-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.c2p-form-group label .required {
+    color: var(--c2p-error);
+}
+
+.c2p-input-wrapper {
+    position: relative;
+}
+
+.c2p-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--c2p-border);
+    border-radius: var(--c2p-radius);
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.c2p-input:focus {
+    outline: none;
+    border-color: var(--c2p-primary);
+    box-shadow: 0 0 0 3px rgba(0, 61, 130, 0.1);
+}
+
+.c2p-input.error {
+    border-color: var(--c2p-error);
+}
+
+.c2p-input.success {
+    border-color: var(--c2p-success);
+}
+
+.c2p-input-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.c2p-spinner-icon {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translateY(-50%) rotate(360deg); }
+}
+
+.c2p-field-help {
+    display: block;
+    color: var(--c2p-text-light);
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.c2p-email-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    font-size: 13px;
+    color: var(--c2p-text-light);
+}
+
+.c2p-email-benefits li {
+    padding: 4px 0;
+}
+
+/* Grid de 2 colunas */
+.c2p-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.c2p-col-4 {
+    grid-column: span 1;
+}
+
+.c2p-col-6 {
+    grid-column: span 1;
+}
+
+.c2p-col-8 {
+    grid-column: span 2;
+}
+
+@media (max-width: 640px) {
+    .c2p-form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .c2p-col-4,
+    .c2p-col-6,
+    .c2p-col-8 {
+        grid-column: span 1;
+    }
+}
+
+/* Checkbox customizado */
+.c2p-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.c2p-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.c2p-checkbox a {
+    color: var(--c2p-primary);
+    text-decoration: underline;
+}
+
+/* Campo confirmado (readonly) */
+.c2p-confirmed-field {
+    background: var(--c2p-secondary);
+    padding: 12px 16px;
+    border-radius: var(--c2p-radius);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ========================================
+   BOTÕES
+   ======================================== */
+.c2p-btn-continue,
+.c2p-btn-finalize {
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--c2p-primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--c2p-radius);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.c2p-btn-continue:hover,
+.c2p-btn-finalize:hover {
+    background: var(--c2p-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--c2p-shadow-lg);
+}
+
+.c2p-btn-continue:disabled,
+.c2p-btn-finalize:disabled {
+    background: var(--c2p-border);
+    color: var(--c2p-text-light);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.c2p-btn-finalize {
+    background: #16a34a;
+    margin-top: 20px;
+}
+
+.c2p-btn-finalize:hover {
+    background: #15803d;
+}
+
+.c2p-btn-secondary {
+    padding: 10px 20px;
+    background: var(--c2p-secondary);
+    color: var(--c2p-text);
+    border: 2px solid var(--c2p-border);
+    border-radius: var(--c2p-radius);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.c2p-btn-secondary:hover {
+    background: #e0e0e0;
+}
+
+.c2p-btn-link {
+    background: none;
+    border: none;
+    color: var(--c2p-primary);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+}
+
+.c2p-btn-link:hover {
+    color: var(--c2p-primary-hover);
+}
+
+/* ========================================
+   DELIVERY OPTIONS
+   ======================================== */
+.c2p-delivery-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.c2p-delivery-btn {
+    padding: 16px;
+    background: #fff;
+    border: 2px solid var(--c2p-border);
+    border-radius: var(--c2p-radius);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.c2p-delivery-btn:hover {
+    border-color: var(--c2p-primary);
+}
+
+.c2p-delivery-btn.active {
+    background: var(--c2p-primary);
+    color: #fff;
+    border-color: var(--c2p-primary);
+}
+
+.c2p-btn-icon {
+    font-size: 20px;
+}
+
+/* CEP wrapper */
+.c2p-cep-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.c2p-cep-wrapper .c2p-input {
+    flex: 1;
+}
+
+.c2p-link-small {
+    font-size: 13px;
+    color: var(--c2p-primary);
+    display: inline-block;
+    margin-top: 8px;
+}
+
+/* Métodos de entrega/retirada */
+.c2p-shipping-methods,
+.c2p-pickup-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.c2p-shipping-method,
+.c2p-pickup-method {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 2px solid var(--c2p-border);
+    border-radius: var(--c2p-radius);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.c2p-shipping-method:hover,
+.c2p-pickup-method:hover {
+    border-color: var(--c2p-primary);
+}
+
+.c2p-shipping-method.selected,
+.c2p-pickup-method.selected {
+    border-color: var(--c2p-primary);
+    background: rgba(0, 61, 130, 0.05);
+}
+
+.c2p-shipping-method input[type="radio"],
+.c2p-pickup-method input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.method-info {
+    flex: 1;
+}
+
+.method-label {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.method-eta {
+    font-size: 13px;
+    color: var(--c2p-text-light);
+}
+
+.method-price {
+    font-weight: 600;
+    color: var(--c2p-primary);
+    font-size: 16px;
+}
+
+/* ========================================
+   RESUMO (COLUNA DIREITA)
+   ======================================== */
+.c2p-checkout-summary {
+    background: #fff;
+    border: 2px solid var(--c2p-border);
+    border-radius: var(--c2p-radius);
+    padding: 24px;
+    position: sticky;
+    top: 20px;
+}
+
+.c2p-summary-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--c2p-border);
+}
+
+.c2p-summary-products {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.c2p-summary-product {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--c2p-border);
+}
+
+.c2p-summary-product:last-child {
+    border-bottom: none;
+}
+
+.c2p-summary-product-image {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 6px;
+    border: 1px solid var(--c2p-border);
+}
+
+.c2p-summary-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.c2p-summary-product-info {
+    flex: 1;
+}
+
+.c2p-summary-product-info h4 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.c2p-summary-product-qty {
+    margin: 0;
+    font-size: 13px;
+    color: var(--c2p-text-light);
+}
+
+.c2p-summary-product-price {
+    font-weight: 600;
+    color: var(--c2p-primary);
+    align-self: flex-start;
+}
+
+.c2p-link-back {
+    display: block;
+    text-align: center;
+    color: var(--c2p-primary);
+    text-decoration: underline;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Cupom */
+.c2p-summary-coupon {
+    padding: 20px 0;
+    border-top: 2px solid var(--c2p-border);
+    border-bottom: 2px solid var(--c2p-border);
+    margin-bottom: 20px;
+}
+
+.c2p-summary-coupon h3 {
+    font-size: 16px;
+    margin: 0 0 12px;
+}
+
+.c2p-coupon-input-group {
+    display: flex;
+    gap: 8px;
+}
+
+.c2p-coupon-input-group .c2p-input {
+    flex: 1;
+    font-size: 14px;
+}
+
+.c2p-applied-coupons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.c2p-coupon-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--c2p-success);
+    color: #fff;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.c2p-remove-coupon {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Totais */
+.c2p-summary-totals {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.c2p-total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+}
+
+.c2p-total-row.c2p-total {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--c2p-primary);
+    padding-top: 12px;
+    border-top: 2px solid var(--c2p-border);
+}
+
+.c2p-discount {
+    color: var(--c2p-success);
+}
+
+.c2p-summary-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.c2p-link-continue {
+    color: var(--c2p-text-light);
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+/* ========================================
+   ALERTS
+   ======================================== */
+.c2p-alert {
+    padding: 12px 16px;
+    border-radius: var(--c2p-radius);
+    margin-bottom: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.c2p-alert-warning {
+    background: #fef3c7;
+    border-left: 4px solid var(--c2p-warning);
+    color: #92400e;
+}
+
+/* ========================================
+   SECTION TITLE
+   ======================================== */
+.c2p-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 24px 0 16px;
+    color: var(--c2p-text);
+}
+
+/* ========================================
+   SUMMARY BLOCK (RESUMO NO STEP 4)
+   ======================================== */
+.c2p-summary-block {
+    background: var(--c2p-secondary);
+    padding: 16px;
+    border-radius: var(--c2p-radius);
+    margin-bottom: 24px;
+}
+
+.c2p-summary-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--c2p-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.c2p-summary-item:last-child {
+    border-bottom: none;
+}
+
+.c2p-summary-item strong {
+    min-width: 140px;
+}
+
+.c2p-summary-item span {
+    flex: 1;
+}
+
+/* ========================================
+   LOADING OVERLAY
+   ======================================== */
+.c2p-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.c2p-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* ========================================
+   CARRINHO VAZIO
+   ======================================== */
+.c2p-checkout-empty {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.c2p-empty-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+
+.c2p-checkout-empty h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    color: var(--c2p-text);
+}
+
+.c2p-checkout-empty p {
+    color: var(--c2p-text-light);
+    margin-bottom: 24px;
+}
+
+.c2p-btn-primary {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--c2p-primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--c2p-radius);
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.c2p-btn-primary:hover {
+    background: var(--c2p-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--c2p-shadow-lg);
+}
+
+/* ========================================
+   RESPONSIVO
+   ======================================== */
+@media (max-width: 768px) {
+    .c2p-checkout-global {
+        padding: 10px;
+    }
+    
+    .c2p-checkout-wrapper {
+        gap: 20px;
+    }
+    
+    .c2p-delivery-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .c2p-checkout-summary {
+        position: static;
+    }
+}
